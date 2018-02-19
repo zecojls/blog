@@ -1,4 +1,9 @@
+install.packages("blogdown")
 library(blogdown)
-new_site(theme = "nurlansu/hugo-sustain")
-serve_site()
 blogdown::install_hugo()
+new_site(theme = "nurlansu/hugo-sustain")
+
+blogdown::hugo_version()
+
+serve_site()
+
