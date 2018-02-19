@@ -1,0 +1,19 @@
+{{ partial "head" . }}
+  <body>
+    <div id="wrap">
+      {{ partial "header" . }}
+      <section id="about">
+        <div class="container">
+        <div class="avatar">
+          <img class="img-circle" src="{{ .Site.BaseURL }}img/{{ .Site.Params.avatar }}" alt="Responsive image">
+        </div>
+        <h3>I'm <strong>{{ .Site.Params.author }}</strong>, a doctorate student from Brazil.</h3>
+        <h3>In this blog you can check about some projects I have worked, or find some stuff that I have developed for data analysis. There also have some good materials that I found on the internet.</h3>
+        <h3>You can contact me by <a href="mailto:{{ .Site.Params.Social.Email }}">email</a> or comenting in the posts. Be welcome! &#128587; </h3>
+        {{ partial "social.html" . }}
+        </div>
+      </section>
+    </div>
+    {{ partial "footer" . }}
+  </body>
+</html>

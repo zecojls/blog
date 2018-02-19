@@ -1,0 +1,40 @@
+baseurl = "/"
+languageCode = "en-US"
+title = "Jose Lucas Safanelli"
+disqusShortname = "zecojls"
+googleAnalytics = ""
+theme = "hugo-sustain"
+ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
+highlight = true
+
+[permalinks]
+  post = "/:year/:month/:day/:slug"
+
+[params]
+  avatar = "profile.png"
+  author = "José Lucas Safanelli"
+  description = "Jose Lucas Safanelli's personal website"
+  custom_css = []
+  custom_js  = []
+
+[params.social]
+  Github        = "zecojls"
+  Email         = "zecojls@gmail.com"
+  LinkedIn      = "joselucassafanelli"
+
+## Main Menu
+[[menu.main]]
+  name = "posts pt-br"
+  weight = 100
+  identifier = "posts pt-b"
+  url = "/posts_ptbr/"
+[[menu.main]]
+  name = "posts en"
+  identifier = "posts en"
+  weight = 200
+  url = "/posts_en/"
+[[menu.main]]
+  name = "about"
+  identifier = "about"
+  weight = 300
+  url = "/about/"

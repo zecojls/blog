@@ -1,0 +1,80 @@
+---
+title: Rápida reprojeção de arquivos raster usando R e gdal
+author: José Lucas Safanelli
+date: '2018-03-01'
+slug: rapida-reprojecao-raster-r
+categories:
+  - r
+tags:
+  - raster
+  - reprojection
+  - gdal
+  - r
+---
+
+
+
+<div id="motivacao" class="section level3">
+<h3>Motivação</h3>
+<p>Resolvi compartilhar este script para disponibilizar uma solução rápida e automatizada para reprojeção de arquivos raster usando o R. Há um tempo atrás, quando pesquisei sobre este assunto, acabei encontrando algumas soluções muito demoradas, o que me levou a pesquisar e desenvolver este script aqui compartilhado.</p>
+<p>A reprojeção é necessária, por exemplo, quando efetuamos o download de imagens de satélite e precisamos colocá-las em um sistema de referência de coordenadas (SRC) padrão de algum projeto. A solução aqui apresentada é baseada na execução do programa GDAL (<em>Geospatial Data Abstraction Library</em>) dentro do R, utilizando a função <code>gdalwarp</code> original.</p>
+<p>Existem outras soluções para execução via R, por exemplo usando o pacote <code>raster</code>. Entrentanto, a abordagem via GDAL é muito mais rápida. Quando executei o código via GDAL com o auxílio do pacote <code>gdalUtils</code>, a imagem foi reprojetada em cerca de 5 segundos. Utilizando o pacote raster, por outro lado, a reprojeção demorou cerca de 2 minutos. É uma diferença absurda, principalmente em projetos contendo milhares de imagens.</p>
+</div>
+<div id="solucao" class="section level3">
+<h3>Solução</h3>
+<p>Carregue os pacotes necessários. Utilize a função <code>install.packages(&quot;pacote&quot;)</code> para instalaá-los, caso ainda não estejam presentes em seu computador.</p>
+<pre class="r"><code>library(raster)
+library(sp)
+library(gdalUtils)
+library(rgdal)</code></pre>
+<p>Em seguida, liste arquivos raster (imagens) dentro do diretório de trabalho com extensão <code>.tif</code>. Você pode definir seu diretório pelo projeto no RStudio, ou via <code>setwd()</code>. O objeto dados, que contém o nome das imagens, será utilizado para depois conversão interna do R via pacote <code>raster</code>.</p>
+<pre class="r"><code>setwd(&quot;D:/diretorio-imagens&quot;)
+dados &lt;- list.files(getwd(), pattern = &quot;\\.tif&quot;)
+dados</code></pre>
+<p>Em relação a projeção de arauivos espaciais, todo sistema de coordenada (SRC) possui uma codificação única, que é utilizada pelos programas para definir o SRC de um objeto. Utilizando pacote <code>gdal</code>, é possível verificar as informações/códigos dos SRC oficiais. Para isso utilize a função <em>make_EPSG()</em>, e busque aquele que possui o código EPSG 4674, como exemplo (EPSG 4674 é o SIRGAS 2000 em coordenadas geográficas).</p>
+<pre class="r"><code>EPSG.list &lt;- make_EPSG()
+EPSG.list[grep(&quot;4674&quot;, EPSG.list$code),]</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>Como irei utilzar o SRC <strong>SIRGAS 2000 UTM zone 22S</strong> para a reprojeção de imagens de satélite, vou fazer a busca do código <strong>prj4</strong> desse SRC para ser utilizado mais a frente. Note que o objeto sirgas possui as variáveis <em>code</em> (que representa o código EPSG), <em>note</em> (nome do código EPSG, neste caso “SIRGAS 2000 / UTM zone 22S”) e <em>prj4</em> (o qual fica armezado nos <em>metadados</em> das imagens georeferenciadas).</li>
+</ol>
+<pre class="r"><code>sirgas &lt;- EPSG.list[grep(&quot;SIRGAS 2000 / UTM zone 22S&quot;, EPSG.list$note),]
+sirgas</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li>Agora vou utilizar o pacote <strong>raster</strong> para transformar os arquivos do objeto <strong>dados</strong> em arquivos raster. A função raster() é utilizada no script abaixo, o qual agrupa todos os arquivos raster em uma lista chamada <em>raster.list</em>. Note que a função summary do objeto <strong>raster.list</strong> retorna 14 elementos. A característica do primeiro arquivo raster da lista é apresentado mais abaixo.</li>
+</ol>
+<pre class="r"><code>raster.list &lt;- list()
+for(i in 1:length(dados)) {
+     raster.list[[i]] &lt;- raster(dados[i])
+}
+summary(raster.list)</code></pre>
+<pre class="r"><code>raster.list[[1]]</code></pre>
+<ol start="6" style="list-style-type: decimal">
+<li>Com os arquivos transformado em raster dentro do R, eu consigo recuperar o SRC original das imagens de satélite. O objeto <em>SRC.velho</em> possui armazenado o código prj4 da primeira imagem de satélite (igual para todas), enquanto o objeto <em>SRC.novo</em> possui o prj4 do objeto <strong>sirgas</strong>, que será nosso SRC alvo da reprojeção.</li>
+</ol>
+<pre class="r"><code>SRC.velho &lt;- projection(raster.list[[1]]); SRC.velho
+SRC.novo &lt;- as.character(sirgas$prj4); SRC.novo</code></pre>
+<p>O código abaixo é um loop para reprojeção de todos os arquivos listados dentro do objeto <strong>dados</strong>. Os argumentos da função dgalwarp são:</p>
+<ul>
+<li><em>srcfile = dados[i]</em> -&gt; representa o iésimo arquivo presente no objeto dados;</li>
+<li>*dstfile = paste(“EPSG”, sirgas$code, dados[i], sep = “_“)* -&gt; irá nomear o arquivo reprojetado com o EPSG novo na frente;<br />
+</li>
+<li><em>s_srs = SRC.velho</em> e <em>t_srs = SRC.novo</em> -&gt; são auto explicativos;<br />
+</li>
+<li><em>r = “near”</em> -&gt; utilizará a reamostragem por VIZINHO MAIS PRÓXIMO;</li>
+<li><em>output_Raster = TRUE</em> -&gt; irá gerar o arquivo no diretório;<br />
+</li>
+<li><em>overwrite = TRUE</em> -&gt; irá sobrescrever caso já tenha algum arquivo com esse nome;<br />
+</li>
+<li><em>verbose = TRUE</em> -&gt; irá rastrear a execução do cógido, o que é util para mostrar o andamento da reprojeção.</li>
+</ul>
+<pre class="r"><code>for(i in 1:length(dados)) {
+     gdalwarp(srcfile = dados[i],
+              dstfile = paste(&quot;EPSG&quot;, sirgas$code, dados[i], sep = &quot;_&quot;),
+              s_srs = SRC.velho,
+              t_srs = SRC.novo,
+              r = &quot;near&quot;,
+              output_Raster = TRUE,
+              overwrite = TRUE,
+              verbose = TRUE)
+}</code></pre>
+</div>

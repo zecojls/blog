@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cv on Jose Lucas Safanelli</title>
+    <link>/categories/cv/</link>
+    <description>Recent content in Cv on Jose Lucas Safanelli</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    
+	<atom:link href="/categories/cv/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Personal Information</title>
+      <link>/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/about/</guid>
+      <description>I&amp;rsquo;m a agronomist (University of Santa Catarina - Curitibanos) There is a summary about me and my interests in the home page. Additionally, you can access information about me from my linkedin or from the following academic links:
+ OrcID Currículo Lattes  I also have a CV as pdf.</description>
+    </item>
+    
+  </channel>
+</rss>

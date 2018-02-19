@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1518467322998.000,
+    "dirty" : true,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "74E1CA10",
+    "lastKnownWriteTime" : 1518998129,
+    "last_content_update" : 1519075708250,
+    "path" : "C:/blog-github-zecojls/initial-setup.R",
+    "project_path" : "initial-setup.R",
+    "properties" : {
+        "cursorPosition" : "5,0",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
