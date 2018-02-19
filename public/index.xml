@@ -17,8 +17,8 @@
       <pubDate>Thu, 01 Mar 2018 00:00:00 +0000</pubDate>
       
       <guid>/posts_ptbr/rapida-reprojecao-raster-r/</guid>
-      <description>MotivaçãoResolvi compartilhar este script para disponibilizar uma solução rápida e automatizada para reprojeção de arquivos raster usando o R. Há um tempo atrás, quando pesquisei sobre este assunto, acabei encontrando algumas soluções muito demoradas, o que me levou a pesquisar e desenvolver este script aqui compartilhado.
-A reprojeção é necessária, por exemplo, quando efetuamos o download de imagens de satélite e precisamos colocá-las em um sistema de referência de coordenadas (SRC) padrão de algum projeto.</description>
+      <description>MotivaçãoEsta postagem disponibiliza uma solução rápida e automatizada para reprojeção de arquivos raster usando o R. Há um tempo atrás, quando pesquisei sobre este assunto, acabei encontrando algumas soluções muito demoradas, o que me levou a pesquisar mais a fundo e desenvolver a solução aqui compartilhada.
+A reprojeção é necessária, por exemplo, quando efetuamos o download de imagens de satélite e precisamos colocá-las em um sistema de referência de coordenadas (SRC) padrão de algum projeto, diferente do SRC original das imagens.</description>
     </item>
     
     <item>
