@@ -5,16 +5,16 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "4182757799",
+    "hash" : "0",
     "id" : "FBE0C476",
     "lastKnownWriteTime" : 1519085249,
     "last_content_update" : 1519085249453,
     "path" : "C:/blog-github-zecojls/content/posts_ptbr/2017-2-2-Reprojecao-de-arquivos-raster-usando-r-e-gdal.Rmd",
     "project_path" : "content/posts_ptbr/2017-2-2-Reprojecao-de-arquivos-raster-usando-r-e-gdal.Rmd",
     "properties" : {
-        "cursorPosition" : "101,49",
+        "cursorPosition" : "76,22",
         "last_setup_crc32" : "9F73CAEA155e5cbd",
-        "scrollLine" : "86"
+        "scrollLine" : "73"
     },
     "relative_order" : 2,
     "source_on_save" : false,
