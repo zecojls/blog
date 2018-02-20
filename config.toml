@@ -5,6 +5,8 @@ disqusShortname = "zecojls"
 googleAnalytics = "UA-91263647-1"
 theme = "hugo-sustain"
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
+relativeURLs = true
+publishDir = 
 
 [permalinks]
   post = "/:year/:month/:day/:slug"
