@@ -18,11 +18,11 @@ tags:
 <h3>Motivação</h3>
 <p>Esta postagem disponibiliza uma solução rápida e automatizada para reprojeção de arquivos raster usando o R. Há um tempo atrás, quando pesquisei sobre este assunto, acabei encontrando algumas soluções muito demoradas, o que me levou a pesquisar mais a fundo e desenvolver a solução aqui compartilhada.</p>
 <p>A reprojeção é necessária, por exemplo, quando efetuamos o download de imagens de satélite e precisamos colocá-las em um sistema de referência de coordenadas (SRC) padrão de algum projeto, diferente do SRC original das imagens. A solução aqui apresentada é baseada na execução do programa GDAL (<em>Geospatial Data Abstraction Library</em>) dentro do R, utilizando a função <code>gdalwarp</code>.</p>
-<p>A solução mais encontrada pela internet utiliza uma função do pacote <code>raster</code>. Utilizando o pacote raster, por exemplo, a reprojeção de uma única banda da imagem de satélite demorou cerca de 2 minutos. Por outro lado, a abordagem via GDAL foi muito mais rápida, demorando cerca de 5 segundos. É uma diferença absurda, principalmente se for executar esse procedimento em projetos contendo milhares de imagens. Para executar o código GDAL, utilizei o pacote <code>gdalUtils</code>.</p>
+<p>A solução mais encontrada pela internet utiliza uma função do pacote <code>raster</code>. Utilizando o pacote raster, por exemplo, a reprojeção de uma única banda da imagem de satélite demora cerca de 2 minutos. Por outro lado, a abordagem via GDAL é muito mais rápida, demorando cerca de 5 segundos. É uma diferença absurda, principalmente se for executar esse procedimento em milhares de imagens. Para executar o GDAL no R, utiliza-se o pacote <code>gdalUtils</code>, com o pressuposto que o GDAL já esteja previamente instalado no computador.</p>
 </div>
 <div id="solucao" class="section level3">
 <h3>Solução</h3>
-<p>Carregue os pacotes necessários listados abaixo. Caso não possuas, utilize a função <code>install.packages(&quot;pacote&quot;)</code> para instalá-los diretamente do CRAN.</p>
+<p>Carregue os pacotes necessários listados abaixo. Caso não os possua, utilize a função <code>install.packages(&quot;pacote&quot;)</code> para instalá-los diretamente do CRAN.</p>
 <pre class="r"><code>library(raster)
 library(sp)
 library(gdalUtils)
@@ -33,11 +33,11 @@ dados &lt;- list.files(getwd(), pattern = &quot;\\.tif&quot;)
 dados</code></pre>
 <p>Recupere informações do SRC alvo utilizando a função <code>make_EPSG</code> do pacote rgdal.</p>
 <pre class="r"><code>EPSG.list &lt;- make_EPSG()</code></pre>
-<p>Irei utilizar, como exemplo, o SRC <strong>SIRGAS 2000 UTM zone 22S</strong> para a reprojeção das imagens de satélite. Dentre as informações que o <code>make_EPSG</code> retorna, o código <strong>prj4</strong> é aquele que irá de fato ser utilizado para a reprojeção.</p>
+<p>O SRC <strong>SIRGAS 2000 UTM zone 22S</strong> é utilizado como exemplo para a reprojeção de imagens. Dentre as informações que a função <code>make_EPSG</code> retorna, o código <strong>prj4</strong> é aquele que irá de fato ser utilizado para a reprojeção via GDAL.</p>
 <pre class="r"><code>sirgas &lt;- EPSG.list[grep(&quot;SIRGAS 2000 / UTM zone 22S&quot;, EPSG.list$note),]</code></pre>
 <p>Utilize o pacote <strong>raster</strong> para transformar algum arquivo do objeto <strong>dados</strong> em um objeto raster dentro do R. A função <code>raster()</code> é utilizada para tal propósito.</p>
 <pre class="r"><code>raster.exemplo &lt;- raster(dados[1])</code></pre>
-<p>Com a imagem transformada em raster dentro do R é possível recuperar o seu SRC original, o qual será utilizado para representar o SRC das imagens a serem reprojetadas. É importante lembrar, então, que todas estas imagens possuem o mesmo SRC. Caso contrário, uma outra abordagem que liste cada SRC individual deve ser utilizada.</p>
+<p>Com o <code>raster.exemplo</code> é possível recuperar o SRC original das imagens. É importante lembrar que todas estas imagens devem possuir este mesmo SRC. Caso contrário, deverá ser utiliza outra abordagem que liste cada SRC individualmente.</p>
 <p>Os objetos <code>SRC.velho</code> e <code>SRC.novo</code> possuem, respectivamente, o SRC original e SRC alvo que serão utilizados na reprojeção.</p>
 <pre class="r"><code>SRC.velho &lt;- projection(raster.exemplo)
 SRC.novo &lt;- as.character(sirgas$prj4); SRC.novo</code></pre>
