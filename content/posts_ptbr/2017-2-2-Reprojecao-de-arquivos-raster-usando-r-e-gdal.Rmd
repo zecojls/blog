@@ -19,7 +19,7 @@ Esta postagem disponibiliza uma solução rápida e automatizada para reprojeç�
 
 A reprojeção é necessária, por exemplo, quando efetuamos o download de imagens de satélite e precisamos colocá-las em um sistema de referência de coordenadas (SRC) padrão de algum projeto, diferente do SRC original das imagens. A solução aqui apresentada é baseada na execução do programa GDAL (*Geospatial Data Abstraction Library*) dentro do R, utilizando a função `gdalwarp`.
 
-A solução mais encontrada pela internet utiliza uma função do pacote `raster`. Utilizando o pacote raster, por exemplo, a reprojeção de uma única banda da imagem de satélite demora cerca de 2 minutos. Por outro lado, a abordagem via GDAL é muito mais rápida, demorando cerca de 5 segundos. É uma diferença absurda, principalmente se for executar esse procedimento em milhares de imagens. Para executar o GDAL no R, utiliza-se o pacote `gdalUtils`, com o pressuposto que o GDAL já esteja previamente instalado no computador.
+A utilização do pacote `raster` para reprojeção de imagens também é muito citada pela web. Utilizando o pacote raster, entretanto, a reprojeção de uma única banda da imagem de satélite demora cerca de 2 minutos. Por outro lado, a abordagem via GDAL é muito mais rápida, demorando cerca de 5 segundos. É uma diferença absurda, principalmente se objetivo for executar esse procedimento em milhares de imagens. Para executar o GDAL no R, utiliza-se o pacote `gdalUtils`, aliado ao pressuposto de que o GDAL já esteja previamente instalado no computador.
 
 ### Solução
 
@@ -46,7 +46,7 @@ Recupere informações do SRC alvo utilizando a função `make_EPSG` do pacote r
 EPSG.list <- make_EPSG()
 ```
   
-O SRC **SIRGAS 2000 UTM zone 22S** é utilizado como exemplo para a reprojeção de imagens. Dentre as informações que a função `make_EPSG` retorna, o código **prj4** é aquele que irá de fato ser utilizado para a reprojeção via GDAL.
+O SRC **SIRGAS 2000 UTM zone 22S** é utilizado como exemplo para a reprojeção das imagens. Dentre as informações que a função `make_EPSG` retorna, o código **prj4** é aquele que irá de fato ser utilizado para a reprojeção via GDAL.
   
 ```{r, eval=FALSE}
 sirgas <- EPSG.list[grep("SIRGAS 2000 / UTM zone 22S", EPSG.list$note),]
@@ -69,10 +69,10 @@ SRC.novo <- as.character(sirgas$prj4); SRC.novo
   
 Para executar a reprojeção de todas as imagens listadas no objeto `dados`, utilize
 o loop apresentado abaixo. Os argumentos da função `dgalwarp` são:
-
-- *srcfile = dados[i]*: representa a iésima imagem a ser reprojetada que está listada no objeto dados;
-
-- *dstfile = paste("EPSG", sirgas$code, dados[i], sep = "_")*: nomea automaticamente o arquivo reprojetado com o código EPSG novo na frente do nome;
+  
+- `srcfile = dados[i]`: representa a iésima imagem a ser reprojetada que está listada no objeto dados;
+  
+- `dstfile = paste("EPSG", sirgas$code, dados[i], sep = "_")`: nomea automaticamente o arquivo reprojetado com o código EPSG novo na frente do nome;
 
 - `s_srs = SRC.velho`: código PRJ4 do SRC original;
 
