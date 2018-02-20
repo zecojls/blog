@@ -1,8 +1,8 @@
-baseurl = "/"
+baseurl = "zecojls.netlify.com"
 languageCode = "en-US"
 title = "Jose Lucas Safanelli"
 disqusShortname = "zecojls"
-googleAnalytics = ""
+googleAnalytics = "UA-91263647-1"
 theme = "hugo-sustain"
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
