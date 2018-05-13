@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts_ens on Jose Lucas Safanelli</title>
+    <link>/posts_en/</link>
+    <description>Recent content in Posts_ens on Jose Lucas Safanelli</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Sat, 12 May 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/posts_en/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Hacking my Amazfit Pace for Data Analysis</title>
+      <link>/posts_en/hacking-my-amazfit-pace-for-data-analysis/</link>
+      <pubDate>Sat, 12 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/posts_en/hacking-my-amazfit-pace-for-data-analysis/</guid>
+      <description>MotivationAt the end of last year, I started searching for smartwatches and decided to buy an Amazfit Pace. This watch is manufactured by the Chinese company Huami and has many functionalities with an affordable price when compared to other models. In addition, the modern and round design has also convinced me to buy it.
+My Amazfit Pace
+The watch has GPS and various sport features. After having used it a few times during some running and bicycling, I asked myself if I could explore all the information collected during my activities.</description>
+    </item>
+    
+  </channel>
+</rss>

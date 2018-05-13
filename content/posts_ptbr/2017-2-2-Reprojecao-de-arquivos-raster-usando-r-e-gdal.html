@@ -41,16 +41,16 @@ dados</code></pre>
 <p>Os objetos <code>SRC.velho</code> e <code>SRC.novo</code> possuem, respectivamente, o SRC original e SRC alvo que serão utilizados na reprojeção.</p>
 <pre class="r"><code>SRC.velho &lt;- projection(raster.exemplo)
 SRC.novo &lt;- as.character(sirgas$prj4); SRC.novo</code></pre>
-<p>Para executar a reprojeção de todas as imagens listadas no objeto <code>dados</code>, utilize o loop apresentado abaixo. Os argumentos da função dgalwarp dentro do loop, importado via pacote <code>gdalUtils</code> são:</p>
+<p>Para executar a reprojeção de todas as imagens listadas no objeto <code>dados</code>, utilize o loop apresentado abaixo. Os argumentos da função <code>dgalwarp</code> são:</p>
 <ul>
-<li><em>srcfile = dados[i]</em>: representa a iésima imagem a ser reprojetada que está listada no objeto dados;</li>
-<li>*dstfile = paste(“EPSG”, sirgas$code, dados[i], sep = “_“)*: nomea automaticamente o arquivo reprojetado com o código EPSG novo na frente do nome;</li>
-<li><em>s_srs = SRC.velho</em>: código PRJ4 do SRC original;</li>
-<li><em>t_srs = SRC.novo</em>: código PRJ4 do SRC alvo;</li>
-<li><em>r = “near”</em>: reamostragem via vizinho mais próximo;</li>
-<li><em>output_Raster = TRUE</em>: gera o arquivo no diretório de trabalho;</li>
-<li><em>overwrite = TRUE</em>: sobrescreve caso já exista algum arquivo com mesmo nome;</li>
-<li><em>verbose = TRUE</em> -&gt; mostra a execução GDAL no console do R</li>
+<li><p><code>srcfile</code>: representa a iésima imagem a ser reprojetada que está listada no objeto dados;</p></li>
+<li><p><code>dstfile</code>: nomea automaticamente o arquivo reprojetado com o código EPSG novo na frente do nome;</p></li>
+<li><p><code>s_srs</code>: código PRJ4 do SRC original;</p></li>
+<li><p><code>t_srs</code>: código PRJ4 do SRC alvo;</p></li>
+<li><p><code>r</code>: reamostragem via vizinho mais próximo;</p></li>
+<li><p><code>output_Raster</code>: gera o arquivo no diretório de trabalho;</p></li>
+<li><p><code>overwrite</code>: sobrescreve caso já exista algum arquivo com mesmo nome;</p></li>
+<li><p><code>verbose</code> -&gt; mostra a execução GDAL no console do R</p></li>
 </ul>
 <pre class="r"><code>for(i in 1:length(dados)) {
      gdalwarp(srcfile = dados[i],
@@ -62,4 +62,5 @@ SRC.novo &lt;- as.character(sirgas$prj4); SRC.novo</code></pre>
               overwrite = TRUE,
               verbose = TRUE)
 }</code></pre>
+<p>Qualquer dúvida, utilize os comentários 👍</p>
 </div>

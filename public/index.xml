@@ -6,10 +6,31 @@
     <description>Recent content on Jose Lucas Safanelli</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Thu, 01 Mar 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 12 May 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>About me</title>
+      <link>/about/</link>
+      <pubDate>Sat, 12 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/about/</guid>
+      <description>I’m natural from Canoinhas, SC, Brazil. I’m 24 years old, a soccer fan (to watch and play) and a beer appreciator (in the future I want to start to produce my own beer). Currently, I’m taking the doctorate (Agriculture - Soils and Plant Nutrition) at University of São Paulo, living at Piracicaba, Brazil.
+About my interests and motivations, everything started when I took agricultural courses at the same time of the high school.</description>
+    </item>
+    
+    <item>
+      <title>Hacking my Amazfit Pace for Data Analysis</title>
+      <link>/posts_en/hacking-my-amazfit-pace-for-data-analysis/</link>
+      <pubDate>Sat, 12 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/posts_en/hacking-my-amazfit-pace-for-data-analysis/</guid>
+      <description>MotivationAt the end of last year, I started searching for smartwatches and decided to buy an Amazfit Pace. This watch is manufactured by the Chinese company Huami and has many functionalities with an affordable price when compared to other models. In addition, the modern and round design has also convinced me to buy it.
+My Amazfit Pace
+The watch has GPS and various sport features. After having used it a few times during some running and bicycling, I asked myself if I could explore all the information collected during my activities.</description>
+    </item>
     
     <item>
       <title>Rápida reprojeção de arquivos raster usando R e gdal</title>
@@ -19,16 +40,6 @@
       <guid>/posts_ptbr/rapida-reprojecao-raster-r/</guid>
       <description>MotivaçãoEsta postagem disponibiliza uma solução rápida e automatizada para reprojeção de arquivos raster usando o R. Há um tempo atrás, quando pesquisei sobre este assunto, acabei encontrando algumas soluções muito demoradas, o que me levou a pesquisar mais a fundo e desenvolver a solução aqui compartilhada.
 A reprojeção é necessária, por exemplo, quando efetuamos o download de imagens de satélite e precisamos colocá-las em um sistema de referência de coordenadas (SRC) padrão de algum projeto, diferente do SRC original das imagens.</description>
-    </item>
-    
-    <item>
-      <title>About me</title>
-      <link>/about/</link>
-      <pubDate>Tue, 13 Feb 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/about/</guid>
-      <description>I’m from Canoinhas, SC, Brazil. I’m 24 years old, a soccer fan (to watch and play) and a beer appreciater (in the future I wanna start to produce my own beer). I currently live at Piracicaba - SP with some friends.
-My native language is portuguese and I decided to write things in this blog in both portuguese and english. I apologize if my english is not fluent, but I believe blogging here can help me to improve it.</description>
     </item>
     
   </channel>

@@ -1,0 +1,313 @@
+---
+title: "Hacking my Amazfit Pace for Data Analysis"
+author: "José Lucas Safanelli"
+date: '2018-05-12'
+slug: hacking-my-amazfit-pace-for-data-analysis
+tags:
+- amazfit-pace
+- r
+categories: data-analysis
+---
+
+## Motivation
+
+At the end of last year, I started searching for smartwatches and decided to buy an [Amazfit Pace](https://us.amazfit.com/shop/pace?variant=25112). This watch is manufactured by the Chinese company Huami and has many functionalities with an affordable price when compared to other models. In addition, the modern and round design has also convinced me to buy it.
+
+![My Amazfit Pace](/img/my_amazfit.jpg)
+
+The watch has GPS and various sport features. After having used it a few times during some running and bicycling, I asked myself if I could explore all the information collected during my activities. Actually, both the watch and the phone's app provide nice summaries about my activities, but I wanted to access and perform some analysis by myself. In this post, I present you the steps I used to recover the data and how I produced my analysis.
+
+## Connecting to my data
+
+Everything started with a google search to understand how could I connect my Amazfit to my computer. Then I realized I should install Android Debug Brigde (ADB), and I followed the instalations steps and other recomendations from [here](https://www.xda-developers.com/install-adb-windows-macos-linux/). Other sources ([here](https://www.howtogeek.com/125769/how-to-install-and-use-abd-the-android-debug-bridge-utility/) and [here](https://forum.xda-developers.com/smartwatch/amazfit/xiaomi-huami-amazfit-export-data-t3533292)) also explained some steps about the connection.
+
+I connected the watch to my computer using the USB cable. As I'm using windows, I openned cmd and navigated to the folder where ADB was installed. In that folder, I executed a comand to connect with the data stored and saved as a file named `export_data.ab`. At the sime time, my watch prompted an option to accept the connection with my computer.
+
+```{r, message=FALSE, warning=FALSE, paged.print=FALSE, eval=FALSE}
+<cmd>   c:
+<cmd>   cd adb/platform-tools-latest-windows/platform-tools
+<cmd>   adb backup -f X:/temp/amazfit/export_data.ab -noapk com.huami.watch.sport
+```
+
+After exporting the `export_data.ab` to a local folder, I followed the steps from this [source](https://forum.xda-developers.com/showthread.php?t=2011811) and installed **Cygwin**, **Java (7 or higher)**, **Android Backup Extractor** and **DB Browser for SQLite**.
+
+Cygwin, according to [Wikipedia](https://en.wikipedia.org/wiki/Cygwin), is a Unix-like environment and command-line interface for Microsoft Windows. I navigated to the folder where I installed it, and executed the `Cygwin.bat` file to open the interface. It takes some time in the first time you open cygwin, but then the comand-line is done to run the comands.
+
+In the cygwin interface, I checked if java was properly installed in my computer.
+
+```{r, message=FALSE, warning=FALSE, paged.print=FALSE, eval=FALSE}
+<cygwin>  java -version
+<cygwin>  java version "10" 2018-03-20
+          Java(TM) SE Runtime Environment 18.3 (build 10+46)
+          Java HotSpot(TM) 64-Bit Server VM 18.3 (build 10+46, mixed mode)
+```
+
+Then I converted the `.ab` file to `.tar` using the **android-backup-extractor**, and extracted to `.db` file.
+
+```{r, message=FALSE, warning=FALSE, paged.print=FALSE, eval=FALSE}
+<cygwin>  java -jar C:/android-backup-tookit-20180203/android-backup-tookit/android-backup-extractor/android-backup-extractor-20180203-bin/abe.jar unpack X:/temp/amazfit/export_data.ab X:/temp/amazfit/export_data.tar
+
+<cygwin>  dd if=X:/temp/amazfit/export_data.ab bs=24 skip=1 | openssl zlib -d > X:/temp/amazfit/export_data.tar
+```
+
+Finally, I opened the `sport_data.bd` using **DB Browser** and then exported the data as csv files:
+
++ sport_summary.csv
++ location_data.csv
++ heart_rate.csv
+
+With the data imported in R software, I was able to explore and produce my  analysis.
+
+## Data Analysis
+
+```{r setup}
+knitr::opts_knit$set(root.dir = "X:/temp/amazfit")
+```
+
+**These R chunks have the initial set up and libraries needed for the analysis**
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+### Initial Set Up ###
+
+# Scientific notation removed
+options(scipen=999) 
+
+# Working directory
+getwd()
+
+# Listed files
+list.files()
+
+### Packages ###
+
+library(anytime)
+library(ggplot2)
+library(rgdal)
+library(ggmap)
+library(gridExtra)
+
+```
+
+**Then, the `heart_rate.csv` data was loaded into R**
+
+```{r warning=FALSE, paged.print=FALSE}
+### Data ###
+
+dir.data <- paste(getwd(), "/export_data/apps/com.huami.watch.sport/db", sep = "")
+list.files(dir.data)
+
+heart.rate <- read.csv(paste(dir.data, "heart_rate.csv", sep = "/"),
+                       header = TRUE, sep = ";", dec = ".", colClasses = "character")
+head(heart.rate)
+str(heart.rate)
+
+```
+
+**And some preparation was needeed**
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+# Converting to numeric
+
+heart.rate.num <- heart.rate
+
+for(i in 1:length(heart.rate)) {
+  heart.rate.num[,i] <- as.numeric(heart.rate[,i])
+}
+
+# Converting to time
+
+heart.rate.data <- heart.rate.num
+heart.rate.data$track_id <- anytime(heart.rate.num$track_id/1000)
+heart.rate.data$run_time <- heart.rate.num$run_time/1000
+heart.rate.data$time <- anytime(heart.rate.data$time/1000)
+
+head(heart.rate.data)
+str(heart.rate.data)
+
+```
+
+**How many activities did I do in total?**
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+unique(heart.rate.data[,1])
+```
+
+**I decided to split the whole dataset by each activity, and explore only a few**
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+# Splitting the data by each activity
+
+activities <- split.data.frame(heart.rate.data, f = list(heart.rate.data$track_id))
+length(activities)
+names(activities)
+
+# How many data for each activity?
+
+lapply(activities, function(x) nrow(x))
+
+# Cleaning some activities
+
+activities[[1]] <- NULL
+lapply(activities, function(x) nrow(x))
+
+activities[[2]] <- NULL
+lapply(activities, function(x) nrow(x))
+
+activities[[3]] <- NULL
+lapply(activities, function(x) nrow(x))
+
+activities[[3]] <- NULL
+lapply(activities, function(x) nrow(x))
+
+```
+
+**Running data**
+
+My first activity evaluated was a run. With the data, I checked my heart rate and cadence during the ~30 minutes of activity. The results are presented as graphics, providing a nice overview of the changes of that parameters. As the watch calculated a heart quality index, I have filtered the imprecise estimates with a heart quality less than 5. This threshold was used after checking the quality changes: the lower the values, higher the quality.
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+# Activity 2 - Running
+
+activity2 <- activities[[2]]
+
+activity2 <- activity2[which(activity2[,"heart_quality"] < 5),]
+
+ggplot(activity2, aes(x = time, y = rate)) +
+  geom_point(size = 1) +
+  geom_smooth(aes(x = time, y = rate)) +
+  ggtitle("Heart rate during the running #2") +
+  ylab("Heart rate (bpm)") +
+  xlab("Time (minutes)")
+
+ggplot(activity2, aes(x = time, y = step_freq*60)) +
+  geom_point(size = 1, colour = "blue") +
+  geom_smooth(aes(x = time, y = step_freq*60), colour = "black") +
+  ggtitle("Cadence during the running") +
+  ylab("Cadence (steps per minute)") +
+  xlab("Time (hh:mm)")
+
+```
+
+**Biking data**
+
+The other activity I evaluated was a 22-km biking I had with some friends. The parameters I evaluated were the heart rate and change in altitude. However, the collected values of altitude from the watch's GPS had many duplicated and imprecise values, which led me to aggregate and smooth the data with a moving average window. The results are also presented as graphics, and differently from the running activity, the biking parameters has many differences due to the route we took.
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+# Activity 4 - Biking
+
+activity4 <- activities[[4]]
+activity4 <- activity4[which(activity4[,"heart_quality"] < 5),]
+
+# The altitude in my city is below 1000 m
+activity4b <- activity4[which(activity4[,"altitude"] < 1000),] 
+
+# Averaging duplicated values
+activity4b.agg <- aggregate(activity4b, by = list(activity4b$time), FUN = mean)
+
+# Moving average to smoth elevation data
+
+ma <- function(x,n=5){filter(x,rep(1/n,n), sides=2)}
+activity4b.agg$alt_ma <- as.numeric(ma(x = activity4b.agg$altitude))
+
+ggplot(activity4b.agg, aes(x = time, y = alt_ma, color = rate)) +
+  geom_point(size = 2) +
+  scale_colour_gradientn(colours = rev(rainbow(3))) +
+  geom_smooth(aes(x = time, y = alt_ma), colour = "black") +
+  ggtitle("Change in altitude and heart rate when biking") +
+  ylab("Altitude (m)") +
+  xlab("Time (hh:mm)") +
+  labs(color = "Heart Rate")
+
+```
+
+**Activity maps**
+
+Finally, the maps of my running and biking activities were produced.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
+### Running Maps ###
+
+run <- readOGR(dsn = "X:/temp/amazfit/gpx/shapes",
+               layer = "run", verbose = F)
+run.df <- data.frame(run)
+names(run.df) <- c("elevation", "time", "heartrate", "long", "lat", "z", "opt")
+
+run.df$time <- as.character(run.df$time)
+
+run.df$heartrate <- as.numeric(as.character(run.df$heartrate))
+
+bbox <- make_bbox(lon = run.df$lon, lat = run.df$lat, f = .1)
+pira_run <- get_map(location = bbox, maptype = "satellite", source = "google")
+```
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+bbox <- make_bbox(lon = run.df$lon, lat = run.df$lat, f = .1)
+pira_run <- get_map(location = bbox, maptype = "satellite", source = "google")
+
+p.run.ele <- ggmap(pira_run) +
+  geom_path(data = run.df, mapping = aes(x = long, y = lat, color = elevation),
+            size = 3, lineend = "round") +
+  labs(colour = "Elevation") + 
+  scale_color_gradientn(colours = terrain.colors(5),
+                        breaks = seq(520, 570, by = 10))
+
+run.df.hr <- run.df[which(run.df[,"heartrate"] > 50),]
+
+p.run.hr <- ggmap(pira_run) +
+  geom_path(data = run.df.hr, mapping = aes(x = long, y = lat, color = heartrate),
+            size = 3, lineend = "round") +
+  labs(colour = "Heart rate (bpm)") + 
+  scale_color_gradientn(colours = rev(rainbow(3)),
+                        breaks = seq(60, 200, by = 40))
+
+grid.arrange(p.run.ele, p.run.hr, nrow = 1)
+
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
+### Bicycling Maps ###
+
+bike <- readOGR(dsn = "X:/temp/amazfit/gpx/shapes",
+               layer = "bike", verbose = F)
+bike.df <- data.frame(bike)
+names(bike.df) <- c("elevation", "time", "heartrate", "long", "lat", "z", "opt")
+
+bike.df$time <- as.character(bike.df$time)
+
+bike.df$heartrate <- as.numeric(as.character(bike.df$heartrate))
+
+bbox <- make_bbox(lon = bike.df$lon, lat = bike.df$lat, f = .35)
+pira_bike <- get_map(location = bbox, maptype = "satellite", source = "google")
+```
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+
+cor(x = bike.df$elevation,
+    y = bike.df$heartrate,
+    use = "pairwise.complete.obs")
+
+bbox <- make_bbox(lon = bike.df$lon, lat = bike.df$lat, f = .35)
+pira_bike <- get_map(location = bbox, maptype = "satellite", source = "google")
+
+p.bike.ele <- ggmap(pira_bike) +
+  geom_path(data = bike.df, mapping = aes(x = long, y = lat, color = elevation),
+            size = 3, lineend = "round") +
+  labs(colour = "Elevation") + 
+  scale_color_gradientn(colours = terrain.colors(5),
+                        breaks = seq(470, 570, by = 20))
+
+bike.df.hr <- bike.df[which(bike.df[,"heartrate"] > 50),]
+
+p.bike.hr <- ggmap(pira_bike) +
+  geom_path(data = bike.df.hr, mapping = aes(x = long, y = lat, color = heartrate), size = 3, lineend = "round") +
+  labs(colour = "Heart rate (bpm)") + 
+  scale_color_gradientn(colours = rev(rainbow(3)),
+                        breaks = seq(50, 200, by = 40))
+
+grid.arrange(p.bike.ele, p.bike.hr, nrow = 1)
+
+```
+
+## Final considerations
+
+The possibility of accessing the information collected by my watch led me to develop all the work presented here. I am glad that I have been able to access the data and develop the analyzes with my own resources. This was possible because the watch has the Android operating system, and many of the tools I used were open-access. Also, it was very interesting to have challenged myself and to have explored tools I had never used before. I'm very excited about the results and  I hope to continue practicing new activities to compare them in the future.

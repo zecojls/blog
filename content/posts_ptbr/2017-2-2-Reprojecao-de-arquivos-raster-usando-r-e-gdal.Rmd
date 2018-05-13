@@ -70,21 +70,21 @@ SRC.novo <- as.character(sirgas$prj4); SRC.novo
 Para executar a reprojeção de todas as imagens listadas no objeto `dados`, utilize
 o loop apresentado abaixo. Os argumentos da função `dgalwarp` são:
 
-- *srcfile = dados[i]*: representa a iésima imagem a ser reprojetada que está listada no objeto dados;
+- `srcfile`: representa a iésima imagem a ser reprojetada que está listada no objeto dados;
 
-- *dstfile = paste("EPSG", sirgas$code, dados[i], sep = "_")*: nomea automaticamente o arquivo reprojetado com o código EPSG novo na frente do nome;
+- `dstfile`: nomea automaticamente o arquivo reprojetado com o código EPSG novo na frente do nome;
 
-- `s_srs = SRC.velho`: código PRJ4 do SRC original;
+- `s_srs`: código PRJ4 do SRC original;
 
-- `t_srs = SRC.novo`: código PRJ4 do SRC alvo;
+- `t_srs`: código PRJ4 do SRC alvo;
 
-- `r = "near"`: reamostragem via vizinho mais próximo;
+- `r`: reamostragem via vizinho mais próximo;
 
-- `output_Raster = TRUE`: gera o arquivo no diretório de trabalho;
+- `output_Raster`: gera o arquivo no diretório de trabalho;
 
-- `overwrite = TRUE`: sobrescreve caso já exista algum arquivo com mesmo nome;
+- `overwrite`: sobrescreve caso já exista algum arquivo com mesmo nome;
 
-- `verbose = TRUE` -> mostra a execução GDAL no console do R
+- `verbose` -> mostra a execução GDAL no console do R
   
 ```{r, eval=FALSE}
 for(i in 1:length(dados)) {
