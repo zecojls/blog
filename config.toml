@@ -12,7 +12,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 [params]
   avatar = "profile.png"
   author = "José Lucas Safanelli"
-  description = "Jose Lucas Safanelli's personal website"
+  description = "Blog pessoal"
   custom_css = []
   custom_js  = []
 
@@ -22,18 +22,13 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
   LinkedIn      = "joselucassafanelli"
 
 ## Main Menu
-[[menu.main]]
-  name = "posts pt-br"
-  weight = 100
-  identifier = "posts pt-b"
-  url = "/posts_ptbr/"
-[[menu.main]]
-  name = "posts en"
-  identifier = "posts en"
-  weight = 200
-  url = "/posts_en/"
-[[menu.main]]
-  name = "about"
-  identifier = "about"
-  weight = 300
-  url = "/about/"
+##[[menu.main]]
+##  name = "posts"
+##  identifier = "posts"
+##  weight = 200
+##  url = "/posts/"
+##[[menu.main]]
+##  name = "sobre"
+##  identifier = "sobre"
+##  weight = 300
+##  url = "/about/"

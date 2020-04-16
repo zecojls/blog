@@ -1,15 +1,26 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>R on Jose Lucas Safanelli</title>
+    <title>r on Jose Lucas Safanelli</title>
     <link>/tags/r/</link>
-    <description>Recent content in R on Jose Lucas Safanelli</description>
+    <description>Recent content in r on Jose Lucas Safanelli</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Sat, 12 May 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Hacking my Amazfit Pace for Data Analysis</title>
+      <link>/posts/hacking-my-amazfit-pace-for-data-analysis/</link>
+      <pubDate>Sat, 12 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/hacking-my-amazfit-pace-for-data-analysis/</guid>
+      <description>MotivationAt the end of last year, I started searching for smartwatches and decided to buy an Amazfit Pace. This watch is manufactured by the Chinese company Huami and has many functionalities with an affordable price when compared to other models. In addition, the modern and round design has also convinced me to buy it.
+My Amazfit Pace
+The watch has GPS and various sport features. After having used it a few times during some running and bicycling, I asked myself if I could explore all the information collected during my activities.</description>
+    </item>
     
     <item>
       <title>Hacking my Amazfit Pace for Data Analysis</title>
@@ -20,6 +31,16 @@
       <description>MotivationAt the end of last year, I started searching for smartwatches and decided to buy an Amazfit Pace. This watch is manufactured by the Chinese company Huami and has many functionalities with an affordable price when compared to other models. In addition, the modern and round design has also convinced me to buy it.
 My Amazfit Pace
 The watch has GPS and various sport features. After having used it a few times during some running and bicycling, I asked myself if I could explore all the information collected during my activities.</description>
+    </item>
+    
+    <item>
+      <title>Rápida reprojeção de arquivos raster usando R e gdal</title>
+      <link>/posts/rapida-reprojecao-raster-r/</link>
+      <pubDate>Thu, 01 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/rapida-reprojecao-raster-r/</guid>
+      <description>MotivaçãoEsta postagem disponibiliza uma solução rápida e automatizada para reprojeção de arquivos raster usando o R. Há um tempo atrás, quando pesquisei sobre este assunto, acabei encontrando algumas soluções muito demoradas, o que me levou a pesquisar mais a fundo e desenvolver a solução aqui compartilhada.
+A reprojeção é necessária, por exemplo, quando efetuamos o download de imagens de satélite e precisamos colocá-las em um sistema de referência de coordenadas (SRC) padrão de algum projeto, diferente do SRC original das imagens.</description>
     </item>
     
     <item>

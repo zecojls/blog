@@ -1,22 +1,17 @@
 ---
-title: About me
+title: Sobre mim
 author: José Lucas Safanelli
-date: '2018-05-12'
+date: '2020-04-01'
 ---
 
-I’m natural from Canoinhas, SC, Brazil. I’m 24 years old, a soccer fan (to watch and play) and a beer appreciator (in the future I want to start to produce my own beer). Currently, I’m taking the doctorate (Agriculture - Soils and Plant Nutrition) at University of São Paulo, living at Piracicaba, Brazil.
+Sou formado em Agronomia e Ciências Rurais pela UFSC Curitibanos - SC. Atualmente estou em doutoramento em Solos e Nutrição de Plantas na ESALQ/USP em Piracicaba - SP, com ênfase na aplicação de geotecnologias para o mapeamento de solos no estado de São Paulo e Brasil. Por conta disso, faço parte do Grupo de Pesquisa **Geotecnologias em Ciência do Solo**, coordenado pelo Prof. Dr. José A. M. Demattê.
 
-About my interests and motivations, everything started when I took agricultural courses at the same time of the high school. I really enjoyed that time and I decided to continue studying agriculture at university.
+Realizei estágio de pesquisa no German Research Center for Geosciences (Remote Sensing section), Alemanha, entre janeiro e julho de 2019.
 
-As an undergraduate student, the use of technology and information has aroused me a great interest for a possible working area. I also liked the academia and had some fellowships in that period, which helped me to continue as a graduate student nowadays.
+Também sou pesquisador assistente no **Grupo de Políticas Públicas** da ESALQ/USP, realizando a modelagem e mapeamento de recursos naturais para avaliar e suportar políticas públicas no Brasil.
 
-My main interests are related to the application of technology and data science in soil research, agricultural and environmental issues, by using automated analysis in programming languages (R,javascript) and free and open source software (mainly GIS, such as QGIS, SAGA, GEE).
-
-If you are interested, you can access additional information about me on my [Research Gate](https://www.researchgate.net/profile/Jose_Safanelli) profile, or by the following links
+Meus interesses de pesquisa estão relacionados à aplicação de geotecnologias e ciência de dados no estudo do solo, agricultura e ambiente. Tenho experiência em ciência do solo, pedometria, sensoriamento remoto, análise de dados espaciais e espectrais, e automação em linguagens de programação.
 
 + [LinkedIn](https://www.linkedin.com/in/joselucassafanelli/)
 + [Google Scholar](https://scholar.google.com.br/citations?user=raFEMBQAAAAJ&hl=en)
 + [OrcID](http://orcid.org/0000-0001-5410-5762)
-
-
-&#128077;&#127995;
